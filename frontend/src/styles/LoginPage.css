@@ -1,0 +1,91 @@
+/* General .signup, .login styling */
+.login {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* .signup, .login headings */
+
+.login h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* Labels */
+
+.login label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs & Select */
+.login input,
+.login select {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+
+.login input:focus,
+.login select:focus {
+    border-color: #6c63ff;
+}
+
+/* Buttons */
+
+.login button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6c63ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+
+.login button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+.login button:hover:not(:disabled) {
+    background-color: #5753e0;
+}
+
+/* Error messages */
+
+.login .error {
+    background-color: #ffdddd;
+    color: #d9534f;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+
+
+    .login {
+        padding: 1.5rem;
+    }
+}
