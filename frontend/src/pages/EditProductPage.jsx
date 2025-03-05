@@ -17,7 +17,7 @@ const EditProductPage = () => {
   const [stockQuantity, setStockQuantity] = useState("");
   const [supplierName, setSupplierName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+  const [contactPhone, setContactPhone] = useState(""); // nbvcx
 
   // Fetch product data
   useEffect(() => {

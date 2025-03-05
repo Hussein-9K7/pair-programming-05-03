@@ -18,7 +18,7 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/add-job" element={<AddProductPage />} />
               <Route path='*' element={<NotFoundPage />} />
-              <Route path ="/products/:id" element ={<DeleteProductPage.js />} />
+              <Route path ="/products/:id" element ={<DeleteProductPage />} />
               <Route path="/edit-product/:id" element={<EditProductPage />} />
             </Routes>
           </div>
