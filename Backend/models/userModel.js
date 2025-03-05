@@ -1,3 +1,14 @@
+/*{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "phone_number": "1234567890",
+  "gender": "Male",
+  "date_of_birth": "1990-01-01",
+  "membership_status": "active"
+}
+*/
+
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
