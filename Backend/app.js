@@ -24,4 +24,6 @@ app.listen(PORT, () => {
     console.log(` `)
   console.log(`Products API: http://localhost:${PORT}/api/products`);
   console.log(`Users API: http://localhost:${PORT}/api/users`);
+  console.log(`Users API: http://localhost:${PORT}/api/users/signup`);
+  console.log(`Users API: http://localhost:${PORT}/api/users/login`);
 });
