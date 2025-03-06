@@ -65,7 +65,7 @@ const DeleteProductPage = () => {
           <p>Company: {product.price}</p>
           <p>Email: {product.stockQuantity}</p>
           <p>Phone: {product.supplierName}</p>
-          <button onClick={() => onDeleteClick(product._id)}>delete</button>
+          <button onClick={() => onDeleteClick(product._id)}  className="btn">delete</button>
         </>
       )}
     </div>

@@ -140,4 +140,4 @@ const AddProductPage = () => {
   );
 };
 
-export default EditProductPage;
+export default AddProductPage;
