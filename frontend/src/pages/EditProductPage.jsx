@@ -18,7 +18,28 @@ const EditProductPage = () => {
   const [supplierName, setSupplierName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState(""); // nbvcx
+  const [rating, setRating] = useState(1);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
+
+  const updateProduct = async (product) => {
+    try {
+      const res = await fetch(`/api/products/${product.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(product),
+      });
+      if (!res.ok) throw new Error("Failed to update product");
+      return res.ok;
+    } catch (error) {
+      console.error("Error updating product:", error);
+      return false;
+    }
+  };
   // Fetch product data
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,6 +60,7 @@ const EditProductPage = () => {
         setSupplierName(data.supplier.name);
         setContactEmail(data.supplier.contactEmail);
         setContactPhone(data.supplier.contactPhone);
+        setRating(data.rating);
       } catch (error) {
         console.error("Error fetching product:", error);
         setError(error.message);
@@ -50,23 +72,7 @@ const EditProductPage = () => {
     fetchProduct();
   }, [id]);
 
-  // Update product
-  const updateProduct = async (updatedProduct) => {
-    try {
-      const res = await fetch(`/api/products/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct),
-      });
-
-      if (!res.ok) throw new Error("Failed to update product");
-      return true;
-    } catch (error) {
-      console.error("Error updating product:", error);
-      return false;
-    }
-  };
-
+ 
   // Handle form submission
   const submitForm = async (e) => {
     e.preventDefault();
@@ -75,12 +81,13 @@ const EditProductPage = () => {
       title,
       category,
       description,
-      price: Number(price),
-      stockQuantity: Number(stockQuantity),
+      price,
+      stockQuantity,
       supplier: {
         name: supplierName,
         contactEmail,
         contactPhone,
+        rating,
       },
     };
 
@@ -91,7 +98,7 @@ const EditProductPage = () => {
   };
 
   return (
-    <div className="edit-product">
+    <div className="create">
       <h2>Update Product</h2>
       {loading ? (
         <p>Loading...</p>
@@ -159,6 +166,13 @@ const EditProductPage = () => {
             required
             value={contactPhone}
             onChange={(e) => setContactPhone(e.target.value)}
+          />
+          <label>Rating:</label>
+          <input
+            type="text"
+            required
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
           />
 
           <button type="submit">Update Product</button>

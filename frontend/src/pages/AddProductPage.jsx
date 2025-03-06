@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const EditProductPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  // State for product data and form fields
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+const AddProductPage = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Electronics");
   const [description, setDescription] = useState("");
@@ -18,86 +10,59 @@ const EditProductPage = () => {
   const [supplierName, setSupplierName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
+  const [rating, setRating] = useState(1);
 
-  // Fetch product data
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(`/api/products/${id}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch product");
-        }
-        const data = await res.json();
-        setProduct(data);
 
-        // Initialize form fields with fetched product data
-        setTitle(data.title);
-        setCategory(data.category);
-        setDescription(data.description);
-        setPrice(data.price);
-        setStockQuantity(data.stockQuantity);
-        setSupplierName(data.supplier.name);
-        setContactEmail(data.supplier.contactEmail);
-        setContactPhone(data.supplier.contactPhone);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
 
-    fetchProduct();
-  }, [id]);
+  const navigate = useNavigate();
 
-  // Update product
-  const updateProduct = async (updatedProduct) => {
+ 
+  const addProduct = async (newProduct) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct),
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newProduct),
       });
-
-      if (!res.ok) throw new Error("Failed to update product");
-      return true;
+      if (!res.ok) {
+        throw new Error("Failed to add product");
+      }
     } catch (error) {
-      console.error("Error updating product:", error);
+      console.error(error);
       return false;
     }
+    return true;
   };
-
   // Handle form submission
   const submitForm = async (e) => {
     e.preventDefault();
 
-    const updatedProduct = {
+    const newProduct = {
       title,
       category,
       description,
-      price: Number(price),
-      stockQuantity: Number(stockQuantity),
+      price,
+      stockQuantity,
       supplier: {
         name: supplierName,
         contactEmail,
         contactPhone,
+        rating,
       },
     };
 
-    const success = await updateProduct(updatedProduct);
-    if (success) {
-      navigate(`/products/${id}`);
-    }
+    addJob(newProduct);
+    return navigate("/");
   };
 
   return (
-    <div className="edit-product">
-      <h2>Update Product</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
+    <div className="create">
+      <h2>Add a New Product</h2>
         <form onSubmit={submitForm}>
           <label>Product Title:</label>
           <input
@@ -160,10 +125,17 @@ const EditProductPage = () => {
             value={contactPhone}
             onChange={(e) => setContactPhone(e.target.value)}
           />
+          <label>Rating:</label>
+          <input
+            type="text"
+            required
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+          />
 
-          <button type="submit">Update Product</button>
+          <button type="submit">Add Product</button>
         </form>
-      )}
+    
     </div>
   );
 };
